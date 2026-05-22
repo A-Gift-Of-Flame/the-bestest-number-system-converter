@@ -1,7 +1,7 @@
 import type { Base, ConvertError } from './converter';
 
-export type Lang = 'en' | 'nl';
-export const SUPPORTED_LANGS = ['en', 'nl'] as const satisfies readonly Lang[];
+export const SUPPORTED_LANGS = ['en', 'nl'] as const;
+export type Lang = typeof SUPPORTED_LANGS[number];
 
 let currentLang: Lang = 'en';
 export function setLang(l: Lang) { currentLang = l; }

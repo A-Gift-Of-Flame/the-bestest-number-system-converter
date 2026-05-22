@@ -68,6 +68,8 @@ function onLangChange(e: Event) {
 }
 
 function translateConverterInPlace() {
+  if (!document.getElementById('val-input')) return;
+
   const tr = t();
 
   const valLabel = document.querySelector('label[for="val-input"]');
@@ -76,26 +78,20 @@ function translateConverterInPlace() {
   const baseLabel = document.querySelector('label[for="base-select"]');
   if (baseLabel) baseLabel.textContent = tr.labelInputBase;
 
-  const valInput = document.getElementById('val-input') as HTMLInputElement | null;
-  if (valInput) valInput.placeholder = tr.placeholder;
+  const valInput = document.getElementById('val-input') as HTMLInputElement;
+  valInput.placeholder = tr.placeholder;
 
-  const baseSelect = document.getElementById('base-select') as HTMLSelectElement | null;
-  if (baseSelect) {
-    BASES.forEach((b, i) => {
-      const bl = tr.bases[b.id];
-      if (baseSelect.options[i]) baseSelect.options[i].text = `${bl.label} — ${bl.description}`;
-    });
-  }
+  const baseSelect = document.getElementById('base-select') as HTMLSelectElement;
+  Array.from(baseSelect.options).forEach(opt => {
+    const b = BASES.find(b => b.id === opt.value);
+    if (b) { const bl = tr.bases[b.id]; opt.text = `${bl.label} — ${bl.description}`; }
+  });
 
-  // Update info bar label text nodes (structure: "Bits: <span>…</span>")
-  const infoBitsSpan = document.getElementById('info-bits');
-  if (infoBitsSpan?.parentElement?.childNodes[0])
-    infoBitsSpan.parentElement.childNodes[0].textContent = `${tr.bits}: `;
-  const infoBytesSpan = document.getElementById('info-bytes');
-  if (infoBytesSpan?.parentElement?.childNodes[0])
-    infoBytesSpan.parentElement.childNodes[0].textContent = `${tr.bytes}: `;
+  const bitsLabel = document.getElementById('info-bits-label');
+  if (bitsLabel) bitsLabel.textContent = tr.bits;
+  const bytesLabel = document.getElementById('info-bytes-label');
+  if (bytesLabel) bytesLabel.textContent = tr.bytes;
 
-  // Re-render output cards with new language (preserves input element)
   updateOutputs(lastInputValue);
 }
 
@@ -141,8 +137,8 @@ function renderConverter() {
     </div>
     <div class="error-banner" id="error-banner" style="display:none"></div>
     <div class="info-bar hidden" id="info-bar">
-      <span>${escHtml(tr.bits)}: <span class="val" id="info-bits">—</span></span>
-      <span>${escHtml(tr.bytes)}: <span class="val" id="info-bytes">—</span></span>
+      <span><span id="info-bits-label">${escHtml(tr.bits)}</span>: <span class="val" id="info-bits">—</span></span>
+      <span><span id="info-bytes-label">${escHtml(tr.bytes)}</span>: <span class="val" id="info-bytes">—</span></span>
     </div>
     <div class="output-grid" id="output-grid">
       ${renderOutputCards(lastInputValue, null)}
