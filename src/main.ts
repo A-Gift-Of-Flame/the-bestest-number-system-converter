@@ -68,7 +68,8 @@ function onLangChange(e: Event) {
 }
 
 function translateConverterInPlace() {
-  if (!document.getElementById('val-input')) return;
+  const valInput = document.getElementById('val-input') as HTMLInputElement | null;
+  if (!valInput) return;
 
   const tr = t();
 
@@ -78,13 +79,12 @@ function translateConverterInPlace() {
   const baseLabel = document.querySelector('label[for="base-select"]');
   if (baseLabel) baseLabel.textContent = tr.labelInputBase;
 
-  const valInput = document.getElementById('val-input') as HTMLInputElement;
   valInput.placeholder = tr.placeholder;
 
   const baseSelect = document.getElementById('base-select') as HTMLSelectElement;
-  Array.from(baseSelect.options).forEach(opt => {
-    const b = BASES.find(b => b.id === opt.value);
-    if (b) { const bl = tr.bases[b.id]; opt.text = `${bl.label} — ${bl.description}`; }
+  BASES.forEach(b => {
+    const opt = baseSelect.querySelector<HTMLOptionElement>(`option[value="${b.id}"]`);
+    if (opt) { const bl = tr.bases[b.id]; opt.text = `${bl.label} — ${bl.description}`; }
   });
 
   const bitsLabel = document.getElementById('info-bits-label');
