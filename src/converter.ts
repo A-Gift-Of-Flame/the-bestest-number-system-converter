@@ -208,9 +208,8 @@ export function convertAll(value: string, base: Base): ConversionResult {
   try {
     bytes = parseToBytes(value, base);
   } catch (e) {
-    const ce = e instanceof Error && 'convertError' in e
-      ? (e as unknown as { convertError: ConvertError }).convertError
-      : { code: 'EMPTY_INPUT' as const };
+    if (!(e instanceof Error && 'convertError' in e)) throw e;
+    const ce = (e as unknown as { convertError: ConvertError }).convertError;
     return { bytes: null, error: ce, outputs: empty, bitLength: 0, byteLength: 0 };
   }
 

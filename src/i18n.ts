@@ -1,10 +1,12 @@
-import type { ConvertError } from './converter';
+import type { Base, ConvertError } from './converter';
 
 export type Lang = 'en' | 'nl';
+export const SUPPORTED_LANGS = ['en', 'nl'] as const satisfies readonly Lang[];
 
-export let currentLang: Lang = 'en';
+let currentLang: Lang = 'en';
 export function setLang(l: Lang) { currentLang = l; }
-export function t(): Translation { return LANGS[currentLang]; }
+export function getLang(): Lang   { return currentLang; }
+export function t(): Translation  { return LANGS[currentLang]; }
 
 /* ── Types ──────────────────────────────────────────────────── */
 export interface TrickRule {
@@ -35,7 +37,7 @@ export interface Translation {
   copied: string;
   source: string;
   tricksIntro: string;
-  bases: Record<string, BaseLabels>;
+  bases: Record<Base, BaseLabels>;
   formatError: (e: ConvertError) => string;
   tricks: TrickSection[];
 }

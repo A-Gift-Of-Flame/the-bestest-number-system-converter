@@ -1,5 +1,5 @@
 import { BASES, Base, convertAll } from './converter';
-import { Lang, TrickRule, TrickSection, currentLang, setLang, t } from './i18n';
+import { Lang, TrickRule, TrickSection, setLang, t } from './i18n';
 import './styles.css';
 
 /* ── State ──────────────────────────────────────────────────── */
@@ -63,8 +63,40 @@ function toggleTheme() {
 function onLangChange(e: Event) {
   setLang((e.target as HTMLSelectElement).value as Lang);
   refreshShellText();
-  if (activeTab === 'converter') renderConverter();
+  if (activeTab === 'converter') translateConverterInPlace();
   else renderTricks();
+}
+
+function translateConverterInPlace() {
+  const tr = t();
+
+  const valLabel = document.querySelector('label[for="val-input"]');
+  if (valLabel) valLabel.textContent = tr.labelValue;
+
+  const baseLabel = document.querySelector('label[for="base-select"]');
+  if (baseLabel) baseLabel.textContent = tr.labelInputBase;
+
+  const valInput = document.getElementById('val-input') as HTMLInputElement | null;
+  if (valInput) valInput.placeholder = tr.placeholder;
+
+  const baseSelect = document.getElementById('base-select') as HTMLSelectElement | null;
+  if (baseSelect) {
+    BASES.forEach((b, i) => {
+      const bl = tr.bases[b.id];
+      if (baseSelect.options[i]) baseSelect.options[i].text = `${bl.label} — ${bl.description}`;
+    });
+  }
+
+  // Update info bar label text nodes (structure: "Bits: <span>…</span>")
+  const infoBitsSpan = document.getElementById('info-bits');
+  if (infoBitsSpan?.parentElement?.childNodes[0])
+    infoBitsSpan.parentElement.childNodes[0].textContent = `${tr.bits}: `;
+  const infoBytesSpan = document.getElementById('info-bytes');
+  if (infoBytesSpan?.parentElement?.childNodes[0])
+    infoBytesSpan.parentElement.childNodes[0].textContent = `${tr.bytes}: `;
+
+  // Re-render output cards with new language (preserves input element)
+  updateOutputs(lastInputValue);
 }
 
 function refreshShellText() {
@@ -270,6 +302,3 @@ function escHtml(s: string): string {
 function escAttr(s: string): string {
   return s.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
-
-// suppress unused import warning — currentLang is read by i18n module internally
-void (currentLang satisfies Lang);
