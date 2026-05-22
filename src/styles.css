@@ -1,0 +1,410 @@
+/* ── Tokens ─────────────────────────────────────────────────── */
+:root {
+  --bg:           #0d1117;
+  --bg2:          #161b22;
+  --bg3:          #21262d;
+  --border:       #30363d;
+  --text:         #c9d1d9;
+  --muted:        #8b949e;
+  --accent:       #58a6ff;
+  --green:        #3fb950;
+  --error:        #f85149;
+  --warn:         #d29922;
+  --shadow:       rgba(0,0,0,0.4);
+  --radius:       6px;
+  --radius-lg:    10px;
+  --mono:         'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'SF Mono', 'Consolas', monospace;
+}
+
+[data-theme="light"] {
+  --bg:           #ffffff;
+  --bg2:          #f6f8fa;
+  --bg3:          #eaeef2;
+  --border:       #d0d7de;
+  --text:         #1f2328;
+  --muted:        #636c76;
+  --accent:       #0969da;
+  --green:        #1a7f37;
+  --error:        #cf222e;
+  --warn:         #9a6700;
+  --shadow:       rgba(0,0,0,0.12);
+}
+
+/* ── Reset ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* ── Header ─────────────────────────────────────────────────── */
+.header {
+  align-items: center;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  height: 52px;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-title {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.header-title .accent { color: var(--accent); }
+
+.header-actions { display: flex; gap: 0.5rem; align-items: center; }
+
+/* ── Tabs ───────────────────────────────────────────────────── */
+.tabs {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  padding: 0 1.5rem;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-bottom: -1px;
+  padding: 0.75rem 1rem;
+  text-transform: uppercase;
+  transition: color 0.15s, border-color 0.15s;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { border-bottom-color: var(--accent); color: var(--accent); }
+
+/* ── Main ───────────────────────────────────────────────────── */
+.main {
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: 1.75rem 1.5rem;
+}
+
+/* ── Buttons ────────────────────────────────────────────────── */
+.btn {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.3rem 0.7rem;
+  text-transform: uppercase;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.btn:hover { background: var(--border); }
+.btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.success { border-color: var(--green); color: var(--green); }
+
+/* ── Input Section ──────────────────────────────────────────── */
+.input-section {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.field-group { display: flex; flex-direction: column; gap: 0.3rem; }
+
+.field-label {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.input-wrapper { flex: 1; min-width: 220px; }
+
+.input-field {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 14px;
+  outline: none;
+  padding: 0.55rem 0.875rem;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+.input-field:focus { border-color: var(--accent); }
+.input-field.is-error { border-color: var(--error); }
+
+.select-field {
+  appearance: none;
+  background: var(--bg2)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%238b949e' d='M5 6 0 0h10z'/%3E%3C/svg%3E")
+    no-repeat right 0.65rem center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 12px;
+  min-width: 180px;
+  outline: none;
+  padding: 0.55rem 2rem 0.55rem 0.875rem;
+  transition: border-color 0.15s;
+}
+.select-field:focus { border-color: var(--accent); }
+
+/* ── Error Banner ───────────────────────────────────────────── */
+.error-banner {
+  align-items: center;
+  background: color-mix(in srgb, var(--error) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--error) 30%, transparent);
+  border-radius: var(--radius);
+  color: var(--error);
+  display: flex;
+  font-size: 12px;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding: 0.55rem 0.875rem;
+}
+
+/* ── Info Bar ───────────────────────────────────────────────── */
+.info-bar {
+  align-items: center;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--muted);
+  display: flex;
+  font-size: 12px;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 0.875rem;
+}
+.info-bar .val { color: var(--text); font-weight: 600; }
+.info-bar.hidden { display: none; }
+
+/* ── Output Grid ────────────────────────────────────────────── */
+.output-grid {
+  display: grid;
+  gap: 0.875rem;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+}
+
+/* ── Output Card ────────────────────────────────────────────── */
+.output-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+.output-card.is-source { border-color: color-mix(in srgb, var(--accent) 50%, var(--border)); }
+.output-card.is-empty .output-value { color: var(--muted); font-style: italic; }
+
+.card-head {
+  align-items: center;
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+  padding: 0.45rem 0.75rem;
+}
+
+.card-label {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.is-source .card-label { color: var(--accent); }
+
+.card-desc { color: var(--muted); font-size: 10px; }
+
+.prefix-chip {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--accent);
+  font-size: 10px;
+  padding: 0.05rem 0.35rem;
+}
+
+.card-body {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.6rem 0.75rem;
+}
+
+.output-value {
+  color: var(--text);
+  flex: 1;
+  font-size: 13px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.copy-btn {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.45rem;
+  text-transform: uppercase;
+  transition: all 0.15s;
+}
+.copy-btn:hover { background: var(--border); color: var(--text); }
+.copy-btn.copied { border-color: var(--green); color: var(--green); }
+.copy-btn:disabled { cursor: default; opacity: 0.35; }
+
+/* ── Tricks Page ────────────────────────────────────────────── */
+.tricks-intro {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+  margin-bottom: 1.75rem;
+  padding: 1rem 1.25rem;
+}
+
+.tricks-section { margin-bottom: 2rem; }
+
+.tricks-section-title {
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+
+.trick-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 0.625rem;
+  overflow: hidden;
+}
+
+.trick-head {
+  align-items: center;
+  background: var(--bg3);
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  transition: background 0.15s;
+  user-select: none;
+}
+.trick-head:hover { background: var(--border); }
+.trick-card.open .trick-head { border-bottom-color: var(--border); }
+
+.trick-title { font-size: 13px; font-weight: 600; }
+.trick-arrow { color: var(--muted); font-size: 11px; transition: transform 0.2s; }
+.trick-card.open .trick-arrow { transform: rotate(180deg); }
+
+.trick-body {
+  display: none;
+  padding: 1rem 1.125rem;
+}
+.trick-card.open .trick-body { display: block; }
+
+.trick-rule {
+  border-left: 2px solid var(--accent);
+  margin-bottom: 1rem;
+  padding-left: 0.875rem;
+}
+.trick-rule:last-child { margin-bottom: 0; }
+
+.trick-rule-title {
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+}
+
+.trick-text {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.75;
+}
+.trick-text strong { color: var(--text); }
+
+.trick-example {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--green);
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.875rem;
+  white-space: pre;
+}
+
+.trick-table {
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-top: 0.5rem;
+  width: 100%;
+}
+.trick-table th {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.35rem 0.6rem;
+  text-align: left;
+  text-transform: uppercase;
+}
+.trick-table td {
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.35rem 0.6rem;
+}
+.trick-table tr:nth-child(even) td { background: var(--bg3); }
+.trick-table .hl { color: var(--accent); font-weight: 600; }
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .output-grid { grid-template-columns: 1fr; }
+  .input-section { flex-direction: column; }
+  .select-field { min-width: 100%; }
+}
